@@ -44,7 +44,7 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/" element={<DashboardRedirect />} />
+      <Route path="/" element={<Navigate to="/sales" replace />} />
 
       <Route element={<PrivateRoute><DashboardLayout /></PrivateRoute>}>
         <Route path="/dashboard" element={<DirectorDashboard />} />
