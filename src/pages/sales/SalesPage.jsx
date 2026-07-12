@@ -130,7 +130,7 @@ const SalesPage = () => {
                     <td className="p-4 pl-6 font-medium text-slate-800">{order.customerName}</td>
                     <td className="p-4 text-slate-600">{order.product}</td>
                     <td className="p-4 text-slate-600">{order.quantity}</td>
-                    <td className="p-4 font-semibold text-slate-700">${order.totalAmount.toLocaleString()}</td>
+                    <td className="p-4 font-semibold text-slate-700">₹{order.totalAmount.toLocaleString('en-IN')}</td>
                     <td className="p-4">
                       <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${getStatusColor(order.status)}`}>
                         {order.status}
@@ -173,7 +173,7 @@ const SalesPage = () => {
                   <input required name="quantity" value={formData.quantity} onChange={handleInputChange} type="number" min="1" className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
                 </div>
                 <div className="flex-1">
-                  <label className="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-1.5">Unit Price ($)</label>
+                  <label className="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-1.5">Unit Price (₹)</label>
                   <input required name="price" value={formData.price} onChange={handleInputChange} type="number" min="0" step="0.01" className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
                 </div>
               </div>

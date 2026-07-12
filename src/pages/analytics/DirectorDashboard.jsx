@@ -75,7 +75,7 @@ const DirectorDashboard = () => {
             <div className="p-2 bg-purple-50 rounded-lg text-purple-600"><TrendingUp className="w-5 h-5" /></div>
           </div>
           <p className="text-3xl font-extrabold text-slate-800 mb-1 tracking-tight">
-            ${data.totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            ₹{data.totalRevenue.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </p>
           <div className="w-full h-1 absolute bottom-0 left-0 bg-purple-500"></div>
         </div>
@@ -126,11 +126,11 @@ const DirectorDashboard = () => {
                   axisLine={false} 
                   tickLine={false} 
                   tick={{fill: '#64748b', fontSize: 12}}
-                  tickFormatter={(value) => `$${value >= 1000 ? (value / 1000).toFixed(0) + 'k' : value}`}
+                  tickFormatter={(value) => `₹${value >= 1000 ? (value / 1000).toFixed(0) + 'k' : value}`}
                 />
                 <RechartsTooltip 
                   contentStyle={{ borderRadius: '8px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                  formatter={(value) => [`$${value.toLocaleString()}`, 'Revenue']}
+                  formatter={(value) => [`₹${value.toLocaleString('en-IN')}`, 'Revenue']}
                 />
                 <Line 
                   type="monotone" 

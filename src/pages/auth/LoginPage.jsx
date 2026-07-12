@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext.jsx';
 
 const LoginPage = () => {
-  const [activeTab, setActiveTab] = useState('sales');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [activeTab, setActiveTab] = useState('director');
+  const [email, setEmail] = useState('director@ecomax.com');
+  const [password, setPassword] = useState('director123');
   const [errorMsg, setErrorMsg] = useState('');
   
   const { login, user } = useContext(AuthContext);
@@ -24,6 +24,19 @@ const LoginPage = () => {
   const handleTabClick = (tab) => {
     setActiveTab(tab);
     setErrorMsg('');
+    if (tab === 'director') {
+      setEmail('director@ecomax.com');
+      setPassword('director123');
+    } else if (tab === 'sales') {
+      setEmail('sales@ecomax.com');
+      setPassword('sales123');
+    } else if (tab === 'service') {
+      setEmail('service@ecomax.com');
+      setPassword('service123');
+    } else if (tab === 'admin') {
+      setEmail('admin@ecomax.com');
+      setPassword('admin123');
+    }
   };
 
   const handleLogin = async (e) => {
@@ -52,11 +65,11 @@ const LoginPage = () => {
 
         {/* Tabs Section */}
         <div className="flex border-b border-slate-200">
-          {['sales', 'service', 'admin'].map((tab) => (
+          {['director', 'sales', 'service', 'admin'].map((tab) => (
             <button
               key={tab}
               onClick={() => handleTabClick(tab)}
-              className={`flex-1 py-4 text-sm font-semibold tracking-wide uppercase transition-colors duration-200 ${
+              className={`flex-1 py-4 text-xs font-semibold tracking-wide uppercase transition-colors duration-200 ${
                 activeTab === tab 
                   ? 'bg-white text-slate-800 border-b-2 border-teal-500' 
                   : 'bg-slate-50 text-slate-400 hover:text-slate-600 hover:bg-slate-100 border-b-2 border-transparent'
@@ -119,10 +132,11 @@ const LoginPage = () => {
           <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">
             Demo Credentials
           </h3>
-          <div className="text-sm font-medium text-slate-600 space-y-2">
-            <p><span className="text-teal-600">Admin:</span> admin@ecomax.com / admin123</p>
-            <p><span className="text-teal-600">Sales:</span> sales@ecomax.com / sales123</p>
-            <p><span className="text-teal-600">Service:</span> service@ecomax.com / service123</p>
+          <div className="grid grid-cols-2 gap-2 text-xs font-medium text-slate-600 text-left px-2">
+            <p><span className="text-teal-600 font-bold">Director:</span> director@ecomax.com / director123</p>
+            <p><span className="text-teal-600 font-bold">Admin:</span> admin@ecomax.com / admin123</p>
+            <p><span className="text-teal-600 font-bold">Sales:</span> sales@ecomax.com / sales123</p>
+            <p><span className="text-teal-600 font-bold">Service:</span> service@ecomax.com / service123</p>
           </div>
         </div>
 

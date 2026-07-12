@@ -5,8 +5,7 @@ import axios from "axios";
 // To reconnect: uncomment the real baseURL and comment out the dummy one
 // =====================================================================
 const axiosInstance = axios.create({
-  // baseURL: import.meta.env.VITE_API_URL || "http://localhost:5001", // ← REAL (commented out)
-  baseURL: "http://BACKEND_DISCONNECTED_FOR_VERCEL_DEPLOY", // ← DUMMY (remove when reconnecting)
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5001",
 });
 
 axiosInstance.interceptors.request.use((config) => {
