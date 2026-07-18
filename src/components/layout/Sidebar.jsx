@@ -15,7 +15,10 @@ import {
   UserCheck,
   UserX,
   Truck,
-  LogOut
+  LogOut,
+  BarChart3,
+  Wrench,
+  ShieldCheck
 } from 'lucide-react';
 
 const Sidebar = () => {
@@ -27,21 +30,67 @@ const Sidebar = () => {
     navigate('/login');
   };
 
-  const navLinks = [
-    { name: 'Dashboard', path: '/dashboard', icon: Home, badge: 0 },
-    { name: 'Enquiries', path: '/sales/enquiries', icon: HelpCircle, badge: 3 },
-    { name: 'Quotations', path: '/sales/quotations', icon: FileText, badge: 2 },
-    { name: 'Proforma Invoices', path: '/sales/proforma', icon: FileCheck, badge: 1 },
-    { name: 'Sales Invoices', path: '/sales/invoices', icon: FileSpreadsheet, badge: 1 },
-    { name: 'Purchase Orders', path: '/sales/purchase-orders', icon: ShoppingCart, badge: 1 },
-    { name: 'Work Orders', path: '/sales/work-orders', icon: ClipboardList, badge: 1 },
-    { name: 'Pre-sales Master', path: '/sales/presales', icon: Database, badge: 0 },
-    { name: 'Lead Management', path: '/sales/leads', icon: Users, badge: 10 },
-    { name: 'Opportunities', path: '/sales/opportunities', icon: Target, badge: 5 },
-    { name: 'AMC Clients', path: '/sales/amc', icon: UserCheck, badge: 5 },
-    { name: 'Non-AMC', path: '/sales/non-amc', icon: UserX, badge: 4 },
-    { name: 'Vendors', path: '/sales/vendors', icon: Truck, badge: 4 },
-  ];
+  // Role-based badge colors
+  const getRoleBadgeColor = (role) => {
+    switch (role) {
+      case 'director': return 'bg-purple-600';
+      case 'admin': return 'bg-rose-500';
+      case 'sales': return 'bg-[#2196f3]';
+      case 'service': return 'bg-emerald-500';
+      default: return 'bg-[#2196f3]';
+    }
+  };
+
+  // Build navigation links based on user role
+  const getNavLinks = () => {
+    if (!user) return [];
+
+    switch (user.role) {
+      case 'director':
+        return [
+          { name: 'Analytics Dashboard', path: '/dashboard', icon: BarChart3, badge: 0 },
+          { name: 'Sales Overview', path: '/sales', icon: Home, badge: 0 },
+          { name: 'Enquiries', path: '/sales/enquiries', icon: HelpCircle, badge: 7 },
+          { name: 'Quotations', path: '/sales/quotations', icon: FileText, badge: 7 },
+          { name: 'Proforma Invoices', path: '/sales/proforma', icon: FileCheck, badge: 7 },
+          { name: 'Sales Invoices', path: '/sales/invoices', icon: FileSpreadsheet, badge: 7 },
+          { name: 'Purchase Orders', path: '/sales/purchase-orders', icon: ShoppingCart, badge: 7 },
+          { name: 'Work Orders', path: '/sales/work-orders', icon: ClipboardList, badge: 7 },
+          { name: 'Service Queue', path: '/service', icon: Wrench, badge: 7 },
+          { name: 'User Management', path: '/admin', icon: ShieldCheck, badge: 0 },
+        ];
+
+      case 'admin':
+        return [
+          { name: 'User Management', path: '/admin', icon: ShieldCheck, badge: 0 },
+        ];
+
+      case 'service':
+        return [
+          { name: 'Service Tickets', path: '/service', icon: Wrench, badge: 7 },
+        ];
+
+      case 'sales':
+      default:
+        return [
+          { name: 'Dashboard', path: '/sales', icon: Home, badge: 0 },
+          { name: 'Enquiries', path: '/sales/enquiries', icon: HelpCircle, badge: 7 },
+          { name: 'Quotations', path: '/sales/quotations', icon: FileText, badge: 7 },
+          { name: 'Proforma Invoices', path: '/sales/proforma', icon: FileCheck, badge: 7 },
+          { name: 'Sales Invoices', path: '/sales/invoices', icon: FileSpreadsheet, badge: 7 },
+          { name: 'Purchase Orders', path: '/sales/purchase-orders', icon: ShoppingCart, badge: 7 },
+          { name: 'Work Orders', path: '/sales/work-orders', icon: ClipboardList, badge: 7 },
+          { name: 'Pre-sales Master', path: '/sales/presales', icon: Database, badge: 7 },
+          { name: 'Lead Management', path: '/sales/leads', icon: Users, badge: 7 },
+          { name: 'Opportunities', path: '/sales/opportunities', icon: Target, badge: 7 },
+          { name: 'AMC Clients', path: '/sales/amc', icon: UserCheck, badge: 7 },
+          { name: 'Non-AMC', path: '/sales/non-amc', icon: UserX, badge: 7 },
+          { name: 'Vendors', path: '/sales/vendors', icon: Truck, badge: 7 },
+        ];
+    }
+  };
+
+  const navLinks = getNavLinks();
 
   return (
     <div className="w-[260px] bg-[#0e1726] flex flex-col h-full z-10 transition-all duration-300">
@@ -50,8 +99,8 @@ const Sidebar = () => {
         <h1 className="text-[26px] font-black text-white tracking-wide">
           ECOMAX <span className="text-[#00d0e6]">360</span>
         </h1>
-        <div className="inline-block bg-[#2196f3] text-white text-[10px] font-bold px-3 py-0.5 rounded-full mt-1 tracking-widest uppercase">
-          SALES
+        <div className={`inline-block ${getRoleBadgeColor(user?.role)} text-white text-[10px] font-bold px-3 py-0.5 rounded-full mt-1 tracking-widest uppercase`}>
+          {user?.role || 'GUEST'}
         </div>
       </div>
 

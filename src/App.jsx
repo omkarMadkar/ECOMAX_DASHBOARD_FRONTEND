@@ -32,37 +32,39 @@ const PrivateRoute = ({ children, roles }) => {
 };
 
 const DashboardRedirect = () => {
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
+  if (loading) return <div className="flex h-screen items-center justify-center bg-slate-50 text-slate-500">Loading Configuration...</div>;
   if (!user) return <Navigate to="/login" />;
-  if (user.role === 'sales') return <Navigate to="/sales" />;
-  if (user.role === 'service') return <Navigate to="/service" />;
-  if (user.role === 'admin') return <Navigate to="/admin" />;
-  return <Navigate to="/dashboard" />;
+  if (user.role === 'sales') return <Navigate to="/sales" replace />;
+  if (user.role === 'service') return <Navigate to="/service" replace />;
+  if (user.role === 'admin') return <Navigate to="/admin" replace />;
+  if (user.role === 'director') return <Navigate to="/dashboard" replace />;
+  return <Navigate to="/dashboard" replace />;
 };
 
 function AppRoutes() {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/" element={<Navigate to="/sales" replace />} />
+      <Route path="/" element={<DashboardRedirect />} />
 
       <Route element={<PrivateRoute><DashboardLayout /></PrivateRoute>}>
-        <Route path="/dashboard" element={<DirectorDashboard />} />
-        <Route path="/sales" element={<SalesPage />} />
-        <Route path="/sales/enquiries" element={<EnquiriesPage />} />
-        <Route path="/sales/quotations" element={<QuotationsPage />} />
-        <Route path="/sales/proforma" element={<ProformaInvoicesPage />} />
-        <Route path="/sales/invoices" element={<SalesInvoicesPage />} />
-        <Route path="/sales/purchase-orders" element={<PurchaseOrdersPage />} />
-        <Route path="/sales/work-orders" element={<WorkOrdersPage />} />
-        <Route path="/sales/presales" element={<PreSalesMasterPage />} />
-        <Route path="/sales/leads" element={<LeadManagementPage />} />
-        <Route path="/sales/opportunities" element={<OpportunitiesPage />} />
-        <Route path="/sales/amc" element={<AMCClientsPage />} />
-        <Route path="/sales/non-amc" element={<NonAMCPage />} />
-        <Route path="/sales/vendors" element={<VendorsPage />} />
-        <Route path="/service" element={<ServicePage />} />
-        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/dashboard" element={<PrivateRoute roles={['director']}><DirectorDashboard /></PrivateRoute>} />
+        <Route path="/sales" element={<PrivateRoute roles={['sales', 'director']}><SalesPage /></PrivateRoute>} />
+        <Route path="/sales/enquiries" element={<PrivateRoute roles={['sales', 'director']}><EnquiriesPage /></PrivateRoute>} />
+        <Route path="/sales/quotations" element={<PrivateRoute roles={['sales', 'director']}><QuotationsPage /></PrivateRoute>} />
+        <Route path="/sales/proforma" element={<PrivateRoute roles={['sales', 'director']}><ProformaInvoicesPage /></PrivateRoute>} />
+        <Route path="/sales/invoices" element={<PrivateRoute roles={['sales', 'director']}><SalesInvoicesPage /></PrivateRoute>} />
+        <Route path="/sales/purchase-orders" element={<PrivateRoute roles={['sales', 'director']}><PurchaseOrdersPage /></PrivateRoute>} />
+        <Route path="/sales/work-orders" element={<PrivateRoute roles={['sales', 'director']}><WorkOrdersPage /></PrivateRoute>} />
+        <Route path="/sales/presales" element={<PrivateRoute roles={['sales', 'director']}><PreSalesMasterPage /></PrivateRoute>} />
+        <Route path="/sales/leads" element={<PrivateRoute roles={['sales', 'director']}><LeadManagementPage /></PrivateRoute>} />
+        <Route path="/sales/opportunities" element={<PrivateRoute roles={['sales', 'director']}><OpportunitiesPage /></PrivateRoute>} />
+        <Route path="/sales/amc" element={<PrivateRoute roles={['sales', 'director']}><AMCClientsPage /></PrivateRoute>} />
+        <Route path="/sales/non-amc" element={<PrivateRoute roles={['sales', 'director']}><NonAMCPage /></PrivateRoute>} />
+        <Route path="/sales/vendors" element={<PrivateRoute roles={['sales', 'director']}><VendorsPage /></PrivateRoute>} />
+        <Route path="/service" element={<PrivateRoute roles={['service', 'director']}><ServicePage /></PrivateRoute>} />
+        <Route path="/admin" element={<PrivateRoute roles={['admin', 'director']}><AdminPage /></PrivateRoute>} />
       </Route>
 
       <Route path="/unauthorized" element={<Unauthorized />} />
